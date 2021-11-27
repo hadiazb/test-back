@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Request, Response } from 'express';
 import { Service } from 'typedi';
 import { UserController } from '../interfaceAdapters/UserController';
 
@@ -7,7 +7,6 @@ export default class UserApi {
 	constructor(private readonly userController: UserController) {}
 
 	public async GetUsers(req: Request, res: Response) {
-		// res.send('Get all users');
 		const response = await this.userController.GetUsers();
 		return res.json(response);
 	}

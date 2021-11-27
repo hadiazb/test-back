@@ -1,10 +1,7 @@
 import { Service } from 'typedi';
-import User from '../../../../store/models/User';
 import { UserContext } from '../../domain/UserContext';
 import { IUserRetriever } from '../interface/IUserRetriever';
-
-// import { IUserContext } from '../../domain/IUserContext';
-// import { IUserRepository } from '../../infrastructure/repositories/IUserRepository';
+import User from '../../../../store/models/User';
 
 @Service()
 export class UserRetriever implements IUserRetriever {

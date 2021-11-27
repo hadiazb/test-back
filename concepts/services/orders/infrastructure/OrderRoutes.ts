@@ -1,10 +1,9 @@
 import { Router } from 'express';
+import Container from 'typedi';
 import OrdersApi from './OrdersApi';
-import { IOrdersController } from '../interfaceAdapters/IOrdersController';
 
-class OrdersRoutes extends OrdersApi {
-	constructor(private controller: IOrdersController) {
-		super(controller);
+class OrdersRoutes {
+	constructor() {
 		this.router = Router();
 		this.Routes();
 	}
@@ -12,17 +11,23 @@ class OrdersRoutes extends OrdersApi {
 	public router: Router;
 
 	public Routes() {
-		this.router.post('/', this.CreateOrder);
-		this.router.get('/', this.GetOrders);
-		this.router.get('/:id', this.GetOrderById);
-		this.router.put('/:id', this.UpdateOrderById);
-		this.router.delete('/:id', this.DeleteOrderById);
+		const orderApi = Container.get(OrdersApi);
+
+		this.router.post('/', async (req, res) => orderApi.CreateOrder(req, res));
+		this.router.get('/', async (req, res) => orderApi.GetOrders(req, res));
+		this.router.get('/:id', async (req, res) =>
+			orderApi.GetOrderById(req, res)
+		);
+		this.router.put('/:id', async (req, res) =>
+			orderApi.UpdateOrderById(req, res)
+		);
+		this.router.delete('/:id', async (req, res) =>
+			orderApi.DeleteOrderById(req, res)
+		);
 	}
 }
 
-let controller!: IOrdersController;
-
-const orderRouter = new OrdersRoutes(controller);
+const orderRouter = new OrdersRoutes();
 orderRouter.Routes();
 
 export default orderRouter.router;

@@ -1,10 +1,14 @@
-import { IOrdersRetriever } from '../application/interface/IOrdersRetriever';
+import { Service } from 'typedi';
+import { OrdersRetriever } from '../application/implementation/OrdersRetriever';
 import { IOrdersController } from './IOrdersController';
 
-export class OrdersController implements IOrdersController {
-	constructor(private readonly ordersRetriever: IOrdersRetriever) {}
+import Order from '../../../store/models/Order';
 
-	public async GetOrders(): Promise<void> {
+@Service()
+export class OrdersController implements IOrdersController {
+	constructor(private readonly ordersRetriever: OrdersRetriever) {}
+
+	public async GetOrders(): Promise<Order[]> {
 		return await this.ordersRetriever.GetOrders();
 	}
 }

@@ -16,13 +16,13 @@ import { Configuration } from '../interfaces/index';
 
 export class Server {
 	public configuration: Configuration;
-	// public server;
+	public server;
 	public applicationContext: express.Application;
 
 	constructor() {
 		this.applicationContext = express();
 		this.configuration = config;
-		// this.server = new http.Server(this.applicationContext);
+		this.server = new http.Server(this.applicationContext);
 		this.Config();
 		this.Routes();
 	}
@@ -39,11 +39,11 @@ export class Server {
 	public Routes() {
 		this.applicationContext.use(indexRoutes);
 		this.applicationContext.use('/api/user', userRoutes);
-		// this.applicationContext.use('/api/order', orderRouter);
+		this.applicationContext.use('/api/order', orderRouter);
 	}
 
 	public Start() {
-		this.applicationContext.listen(this.applicationContext.get('port'), () => {
+		this.server.listen(this.applicationContext.get('port'), () => {
 			console.log('Server on port', this.applicationContext.get('port'));
 			this.ConnectDatabase();
 		});

@@ -1,18 +1,13 @@
-import { IOrdersContext } from '../../domain/IOrdersContext';
-import { IOrdersRepository } from '../../infrastructure/repositories/IOrdersRepository';
+import { Service } from 'typedi';
+import { OrderContext } from '../../domain/OrdersContext';
 import { IOrdersRetriever } from '../interface/IOrdersRetriever';
+import Order from '../../../../store/models/Order';
 
+@Service()
 export class OrdersRetriever implements IOrdersRetriever {
-	constructor(
-		private readonly ordersContext: IOrdersContext,
-		private readonly ordersPostgreSQLRepository: IOrdersRepository,
-		private readonly ordersMyQLRepository: IOrdersRepository
-	) {}
+	constructor(private readonly ordersContext: OrderContext) {}
 
-	public async GetOrders(): Promise<void> {
-		const allOrders = this.ordersPostgreSQLRepository.GetOrders();
-		const allOrdersMysQL = this.ordersMyQLRepository.GetOrders();
-
+	public async GetOrders(): Promise<Order[]> {
 		return await this.ordersContext.GetOrders();
 	}
 }

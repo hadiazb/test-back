@@ -1,3 +1,5 @@
+import Order from '../../../../store/models/Order';
+
 export interface IOrdersRetriever {
-	GetOrders(): Promise<void>;
+	GetOrders(): Promise<Order[]>;
 }

@@ -10,16 +10,18 @@ const morgan_1 = __importDefault(require("morgan"));
 const helmet_1 = __importDefault(require("helmet"));
 const compression_1 = __importDefault(require("compression"));
 const cors_1 = __importDefault(require("cors"));
+const http_1 = __importDefault(require("http"));
 // Ours
 const IndexRoutes_1 = __importDefault(require("./routes/IndexRoutes"));
 const UserRoutes_1 = __importDefault(require("./services/user/infrastructure/UserRoutes"));
+const OrderRoutes_1 = __importDefault(require("./services/orders/infrastructure/OrderRoutes"));
 const database_1 = require("./store/database");
 const index_1 = require("../config/index");
 class Server {
     constructor() {
         this.applicationContext = (0, express_1.default)();
         this.configuration = index_1.config;
-        // this.server = new http.Server(this.applicationContext);
+        this.server = new http_1.default.Server(this.applicationContext);
         this.Config();
         this.Routes();
     }
@@ -35,10 +37,10 @@ class Server {
     Routes() {
         this.applicationContext.use(IndexRoutes_1.default);
         this.applicationContext.use('/api/user', UserRoutes_1.default);
-        // this.applicationContext.use('/api/order', orderRouter);
+        this.applicationContext.use('/api/order', OrderRoutes_1.default);
     }
     Start() {
-        this.applicationContext.listen(this.applicationContext.get('port'), () => {
+        this.server.listen(this.applicationContext.get('port'), () => {
             console.log('Server on port', this.applicationContext.get('port'));
             this.ConnectDatabase();
         });

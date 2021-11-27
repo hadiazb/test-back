@@ -1,15 +1,18 @@
 import { Request, Response } from 'express';
-import { IOrdersController } from '../interfaceAdapters/IOrdersController';
+import { Service } from 'typedi';
+import { OrdersController } from '../interfaceAdapters/OrdersController';
 
+@Service()
 export default class OrdersApi {
-	constructor(private readonly ordersController: IOrdersController) {}
+	constructor(private readonly ordersController: OrdersController) {}
+
+	public async GetOrders(req: Request, res: Response) {
+		const response = await this.ordersController.GetOrders();
+		return res.json(response);
+	}
 
 	public async CreateOrder(req: Request, res: Response) {
 		res.send('Create order');
-	}
-
-	public async GetOrders(req: Request, res: Response) {
-		res.send('Get all orders');
 	}
 
 	public async GetOrderById(req: Request, res: Response) {

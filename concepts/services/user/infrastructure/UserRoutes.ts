@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import Container from 'typedi';
 import UserApi from './UserApi';
-// import { IUserController } from '../interfaceAdapters/IUserController';
-// import { UserController } from '../interfaceAdapters/UserController';
 
 class UserRoutes {
 	constructor() {
@@ -17,11 +15,11 @@ class UserRoutes {
 
 		this.router.post('/', async (req, res) => userApi.CreateUser(req, res));
 		this.router.get('/', async (req, res) => userApi.GetUsers(req, res));
-		this.router.get('/:url', async (req, res) => userApi.GetUserById(req, res));
-		this.router.put('/:url', async (req, res) =>
+		this.router.get('/:id', async (req, res) => userApi.GetUserById(req, res));
+		this.router.put('/:id', async (req, res) =>
 			userApi.UpdateUserById(req, res)
 		);
-		this.router.delete('/:url', async (req, res) =>
+		this.router.delete('/:id', async (req, res) =>
 			userApi.DeleteUserById(req, res)
 		);
 	}
