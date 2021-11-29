@@ -28,9 +28,16 @@ let UserRetriever = class UserRetriever {
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userContext.GetUsers();
-            // return new Promise<string>((resolve, reject) => {
-            // 	return resolve('Otra vez probando las rutas6');
-            // });
+        });
+    }
+    GetUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userContext.GetUserById(id);
+        });
+    }
+    CreateUser(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userContext.CreateUser(body);
         });
     }
 };

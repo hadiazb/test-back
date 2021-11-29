@@ -7,16 +7,30 @@ export default class UserApi {
 	constructor(private readonly userController: UserController) {}
 
 	public async GetUsers(req: Request, res: Response) {
-		const response = await this.userController.GetUsers();
-		return res.json(response);
-	}
-
-	public async CreateUser(req: Request, res: Response) {
-		res.send('Create');
+		await this.userController
+			.GetUsers()
+			.then((response) => {
+				res.send(response);
+			})
+			.catch((err) => console.log(err));
 	}
 
 	public async GetUserById(req: Request, res: Response) {
-		res.send('Get user by id.');
+		await this.userController
+			.GetUserById(req.params.id)
+			.then((response) => {
+				res.send(response);
+			})
+			.catch((err) => console.log(err));
+	}
+
+	public async CreateUser(req: Request, res: Response) {
+		await this.userController
+			.CreateUser(req.body)
+			.then((response) => {
+				res.send(response);
+			})
+			.catch((err) => console.log(err));
 	}
 
 	public async UpdateUserById(req: Request, res: Response) {

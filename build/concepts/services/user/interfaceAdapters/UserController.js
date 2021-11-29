@@ -30,6 +30,16 @@ let UserController = class UserController {
             return yield this.userRetriever.GetUsers();
         });
     }
+    GetUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userRetriever.GetUserById(id);
+        });
+    }
+    CreateUser(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userRetriever.CreateUser(body);
+        });
+    }
 };
 UserController = __decorate([
     (0, typedi_1.Service)(),

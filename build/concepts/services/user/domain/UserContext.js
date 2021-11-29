@@ -27,6 +27,25 @@ let UserContext = class UserContext {
             return User_1.default.findAll();
         });
     }
+    GetUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return User_1.default.findAll({
+                where: {
+                    id,
+                },
+            });
+        });
+    }
+    CreateUser(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return User_1.default.create({
+                nombre: body.nombre,
+                apellido: body.apellido,
+                edad: body.edad,
+                sexo: body.sexo,
+            });
+        });
+    }
 };
 UserContext = __decorate([
     (0, typedi_1.Service)()

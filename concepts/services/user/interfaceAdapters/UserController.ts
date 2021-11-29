@@ -11,4 +11,20 @@ export class UserController implements IUserController {
 	public async GetUsers(): Promise<User[]> {
 		return await this.userRetriever.GetUsers();
 	}
+
+	public async GetUserById(id: string): Promise<User[]> {
+		return await this.userRetriever.GetUserById(id);
+	}
+
+	public async CreateUser(body: UserInterface): Promise<User> {
+		return await this.userRetriever.CreateUser(body);
+	}
+}
+
+interface UserInterface {
+	id?: number;
+	nombre: string;
+	apellido: string;
+	edad: number;
+	sexo: boolean;
 }

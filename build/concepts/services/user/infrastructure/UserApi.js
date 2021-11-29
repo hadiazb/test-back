@@ -26,18 +26,32 @@ let UserApi = class UserApi {
     }
     GetUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield this.userController.GetUsers();
-            return res.json(response);
-        });
-    }
-    CreateUser(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            res.send('Create');
+            yield this.userController
+                .GetUsers()
+                .then((response) => {
+                res.send(response);
+            })
+                .catch((err) => console.log(err));
         });
     }
     GetUserById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.send('Get user by id.');
+            yield this.userController
+                .GetUserById(req.params.id)
+                .then((response) => {
+                res.send(response);
+            })
+                .catch((err) => console.log(err));
+        });
+    }
+    CreateUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.userController
+                .CreateUser(req.body)
+                .then((response) => {
+                res.send(response);
+            })
+                .catch((err) => console.log(err));
         });
     }
     UpdateUserById(req, res) {
