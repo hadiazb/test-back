@@ -1,7 +1,9 @@
 import { Service } from 'typedi';
 import { UserContext } from '../../domain/UserContext';
 import { IUserRetriever } from '../interface/IUserRetriever';
+
 import User from '../../../../store/models/User';
+import { UserInterface } from '../../../../store/modelsInterfaces/UserInterfaces';
 
 @Service()
 export class UserRetriever implements IUserRetriever {
@@ -18,12 +20,15 @@ export class UserRetriever implements IUserRetriever {
 	public async CreateUser(body: UserInterface): Promise<User> {
 		return await this.userContext.CreateUser(body);
 	}
-}
 
-interface UserInterface {
-	id?: number;
-	nombre: string;
-	apellido: string;
-	edad: number;
-	sexo: boolean;
+	public async UpdateUserById(
+		id: string,
+		body: UserInterface
+	): Promise<[number, User[]]> {
+		return await this.userContext.UpdateUserById(id, body);
+	}
+
+	public async DeleteUserById(id: string): Promise<number> {
+		return await this.userContext.DeleteUserById(id);
+	}
 }

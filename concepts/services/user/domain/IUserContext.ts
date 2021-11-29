@@ -1,9 +1,10 @@
 import User from '../../../store/models/User';
+import { UserInterface } from '../../../store/modelsInterfaces/UserInterfaces';
 
 export interface IUserContext {
 	GetUsers(): Promise<User[]>;
 	GetUserById(id: string): Promise<User[]>;
-	CreateUser(): Promise<void>;
-	DeleteUser(): Promise<void>;
-	UpdateUser(): Promise<void>;
+	CreateUser(body: UserInterface): Promise<User>;
+	UpdateUserById(id: string, body: UserInterface): Promise<[number, User[]]>;
+	DeleteUserById(id: string): Promise<number>;
 }

@@ -19,6 +19,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
+const socket_1 = require("../../../sockets/socket");
 const UserController_1 = require("../interfaceAdapters/UserController");
 let UserApi = class UserApi {
     constructor(userController) {
@@ -29,6 +30,10 @@ let UserApi = class UserApi {
             yield this.userController
                 .GetUsers()
                 .then((response) => {
+                socket_1.Sockets.emmit('list', {
+                    status: 200,
+                    data: response,
+                });
                 res.send(response);
             })
                 .catch((err) => console.log(err));
@@ -56,12 +61,23 @@ let UserApi = class UserApi {
     }
     UpdateUserById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.send('Update user by id.');
+            yield this.userController
+                .UpdateUserById(req.params.id, req.body)
+                .then((response) => {
+                res.send(response);
+            })
+                .catch((err) => console.log(err));
         });
     }
     DeleteUserById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.send('Delete user by id.');
+            yield this.userController
+                .DeleteUserById(req.params.id)
+                .then((response) => {
+                console.log(response);
+                res.sendStatus(200);
+            })
+                .catch((err) => console.log(err));
         });
     }
 };

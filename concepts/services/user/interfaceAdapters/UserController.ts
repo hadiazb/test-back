@@ -3,7 +3,7 @@ import { UserRetriever } from '../application/implementation/UserRetriever';
 import { IUserController } from './IUserController';
 
 import User from '../../../store/models/User';
-
+import { UserInterface } from '../../../store/modelsInterfaces/UserInterfaces';
 @Service()
 export class UserController implements IUserController {
 	constructor(private readonly userRetriever: UserRetriever) {}
@@ -19,12 +19,15 @@ export class UserController implements IUserController {
 	public async CreateUser(body: UserInterface): Promise<User> {
 		return await this.userRetriever.CreateUser(body);
 	}
-}
 
-interface UserInterface {
-	id?: number;
-	nombre: string;
-	apellido: string;
-	edad: number;
-	sexo: boolean;
+	public async UpdateUserById(
+		id: string,
+		body: UserInterface
+	): Promise<[number, User[]]> {
+		return await this.userRetriever.UpdateUserById(id, body);
+	}
+
+	public async DeleteUserById(id: string): Promise<number> {
+		return await this.userRetriever.DeleteUserById(id);
+	}
 }

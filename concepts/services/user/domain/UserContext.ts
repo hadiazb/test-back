@@ -1,8 +1,11 @@
 import { Service } from 'typedi';
+import { IUserContext } from './IUserContext';
+
 import User from '../../../store/models/User';
+import { UserInterface } from '../../../store/modelsInterfaces/UserInterfaces';
 
 @Service()
-export class UserContext {
+export class UserContext implements IUserContext {
 	public async GetUsers(): Promise<User[]> {
 		return User.findAll();
 	}
@@ -23,12 +26,32 @@ export class UserContext {
 			sexo: body.sexo,
 		});
 	}
-}
 
-interface UserInterface {
-	id?: number;
-	nombre: string;
-	apellido: string;
-	edad: number;
-	sexo: boolean;
+	public async UpdateUserById(
+		id: string,
+		body: UserInterface
+	): Promise<[number, User[]]> {
+		return User.update(
+			{
+				id: body.id,
+				nombre: body.nombre,
+				apellido: body.apellido,
+				edad: body.edad,
+				sexo: body.sexo,
+			},
+			{
+				where: {
+					id,
+				},
+			}
+		);
+	}
+
+	public async DeleteUserById(id: string): Promise<number> {
+		return User.destroy({
+			where: {
+				id,
+			},
+		});
+	}
 }

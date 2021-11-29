@@ -46,6 +46,30 @@ let UserContext = class UserContext {
             });
         });
     }
+    UpdateUserById(id, body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return User_1.default.update({
+                id: body.id,
+                nombre: body.nombre,
+                apellido: body.apellido,
+                edad: body.edad,
+                sexo: body.sexo,
+            }, {
+                where: {
+                    id,
+                },
+            });
+        });
+    }
+    DeleteUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return User_1.default.destroy({
+                where: {
+                    id,
+                },
+            });
+        });
+    }
 };
 UserContext = __decorate([
     (0, typedi_1.Service)()

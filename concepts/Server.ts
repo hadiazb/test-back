@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import http from 'http';
+import socketIO, { Socket } from 'socket.io';
 
 // Ours
 import indexRoutes from './routes/IndexRoutes';
@@ -13,16 +14,21 @@ import orderRouter from './services/orders/infrastructure/OrderRoutes';
 import { sequelize } from './store/database';
 import { config } from '../config/index';
 import { Configuration } from '../interfaces/index';
+import { Sockets } from './sockets/socket';
 
 export class Server {
 	public configuration: Configuration;
 	public server;
 	public applicationContext: express.Application;
+	public io: socketIO.Server;
 
 	constructor() {
 		this.applicationContext = express();
 		this.configuration = config;
 		this.server = new http.Server(this.applicationContext);
+		this.io = new socketIO.Server(this.server, {
+			cors: { origin: true, credentials: true },
+		});
 		this.Config();
 		this.Routes();
 	}
@@ -46,6 +52,7 @@ export class Server {
 		this.server.listen(this.applicationContext.get('port'), () => {
 			console.log('Server on port', this.applicationContext.get('port'));
 			this.ConnectDatabase();
+			this.connectSocket();
 		});
 	}
 
@@ -59,7 +66,13 @@ export class Server {
 				console.log('There is a error with the data base connect', error);
 			});
 	}
+
+	public connectSocket() {
+		this.io.on('connection', (client: Socket) => {
+			Sockets.socketUser(client);
+		});
+	}
 }
 
-const server = new Server();
+export const server = new Server();
 server.Start();
