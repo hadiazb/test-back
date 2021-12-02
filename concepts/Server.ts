@@ -58,7 +58,7 @@ export class Server {
 
 	public ConnectDatabase() {
 		sequelize
-			.sync({ force: false })
+			.sync({ force: true })
 			.then(() => {
 				console.log('Data base is connect!!!');
 			})

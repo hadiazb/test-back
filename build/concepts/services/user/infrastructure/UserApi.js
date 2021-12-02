@@ -30,10 +30,7 @@ let UserApi = class UserApi {
             yield this.userController
                 .GetUsers()
                 .then((response) => {
-                socket_1.Sockets.emmit('list', {
-                    status: 200,
-                    data: response,
-                });
+                socket_1.Sockets.emmit('list', response);
                 res.send(response);
             })
                 .catch((err) => console.log(err));
@@ -54,6 +51,7 @@ let UserApi = class UserApi {
             yield this.userController
                 .CreateUser(req.body)
                 .then((response) => {
+                socket_1.Sockets.emmit('create-user', response);
                 res.send(response);
             })
                 .catch((err) => console.log(err));

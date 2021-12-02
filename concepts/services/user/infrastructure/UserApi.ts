@@ -11,10 +11,7 @@ export default class UserApi {
 		await this.userController
 			.GetUsers()
 			.then((response) => {
-				Sockets.emmit('list', {
-					status: 200,
-					data: response,
-				});
+				Sockets.emmit('list', response);
 				res.send(response);
 			})
 			.catch((err) => console.log(err));
@@ -33,6 +30,7 @@ export default class UserApi {
 		await this.userController
 			.CreateUser(req.body)
 			.then((response) => {
+				Sockets.emmit('create-user', response);
 				res.send(response);
 			})
 			.catch((err) => console.log(err));
