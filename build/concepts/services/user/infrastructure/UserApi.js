@@ -30,21 +30,30 @@ let UserApi = class UserApi {
     }
     GetUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let flat = JSON.parse((yield this.redis.ReadData('users')));
-            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXX', flat);
-            if (!flat || !flat.length) {
-                console.log('bases de datos');
-                yield this.userController
-                    .GetUsers()
-                    .then((response) => {
-                    console.log('==========>', response);
-                    flat = response;
-                    this.redis.WriteData('users', JSON.stringify(flat));
-                })
-                    .catch((err) => console.log(err));
-            }
-            console.log('redis cache');
-            return res.send(flat);
+            let flag = yield this.redis.ReadData('users');
+            yield this.userController
+                .GetUsers()
+                .then((response) => {
+                if (flag) {
+                    if (flag === JSON.stringify(response)) {
+                        console.log('========>          COMSUMO DE REDIS');
+                        res.send(JSON.parse(flag));
+                    }
+                    else {
+                        console.log('========>          ACTUALIZACIÓN DE REDIS');
+                        this.redis.WriteData('users', JSON.stringify(response));
+                        console.log('========>          CONSUMO DEL SERVICIO');
+                        res.send(response);
+                    }
+                }
+                else {
+                    console.log('========>          ACTUALIZACIÓN DE REDIS');
+                    this.redis.WriteData('users', JSON.stringify(response));
+                    console.log('========>          CONSUMO DEL SERVICIO, REDIS VACIO');
+                    res.send(response);
+                }
+            })
+                .catch((err) => console.log(err));
         });
     }
     GetUserById(req, res) {

@@ -22,11 +22,4 @@ export class Redis {
 	public async ReadData(key: string) {
 		return await this.client.get(key);
 	}
-
-	public async ValidateData(key: string) {
-		const response = await this.ReadData(key);
-		if (response) {
-			return response;
-		}
-	}
 }
