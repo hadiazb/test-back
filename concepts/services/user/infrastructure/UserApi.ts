@@ -1,21 +1,36 @@
 import { Request, Response } from 'express';
 import { Service } from 'typedi';
+
+// Ours
 import { Sockets } from '../../../sockets/socket';
+import { Redis } from '../../../storage/redis';
+import User from '../../../store/models/User';
 import { UserController } from '../interfaceAdapters/UserController';
 
 @Service()
 export default class UserApi {
-	constructor(private readonly userController: UserController) {}
+	constructor(
+		private readonly userController: UserController,
+		private redis: Redis
+	) {}
 
 	public async GetUsers(req: Request, res: Response) {
-		await this.userController
-			.GetUsers()
-			.then((response) => {
-				Sockets.emmit('list', response);
-				res.send(response);
-			})
-			.catch((err) => console.log(err));
-	}
+    let flat: User[] = JSON.parse((await this.redis.ReadData('users'))!);
+    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXX',flat);
+    if (!flat || !flat.length) {
+      console.log('bases de datos')
+      await this.userController
+        .GetUsers()
+        .then((response) => {
+          console.log('==========>',response)
+          flat = response;
+          this.redis.WriteData('users', JSON.stringify(flat))
+        })
+        .catch((err) => console.log(err));
+    }
+      console.log('redis cache')
+      return res.send(flat);
+    }
 
 	public async GetUserById(req: Request, res: Response) {
 		await this.userController

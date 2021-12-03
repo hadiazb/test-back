@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import http from 'http';
+import responseTime from 'response-time';
 import socketIO, { Socket } from 'socket.io';
 
 // Ours
@@ -33,6 +34,7 @@ export class Server {
 		this.Routes();
 	}
 	public Config() {
+		this.applicationContext.use(responseTime());
 		this.applicationContext.set('port', this.configuration.app.port);
 		this.applicationContext.use(morgan('dev'));
 		this.applicationContext.use(express.json());

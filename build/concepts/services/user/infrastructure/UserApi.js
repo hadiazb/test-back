@@ -19,21 +19,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
+// Ours
 const socket_1 = require("../../../sockets/socket");
+const redis_1 = require("../../../storage/redis");
 const UserController_1 = require("../interfaceAdapters/UserController");
 let UserApi = class UserApi {
-    constructor(userController) {
+    constructor(userController, redis) {
         this.userController = userController;
+        this.redis = redis;
     }
     GetUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.userController
-                .GetUsers()
-                .then((response) => {
-                socket_1.Sockets.emmit('list', response);
-                res.send(response);
-            })
-                .catch((err) => console.log(err));
+            let flat = JSON.parse((yield this.redis.ReadData('users')));
+            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXX', flat);
+            if (!flat || !flat.length) {
+                console.log('bases de datos');
+                yield this.userController
+                    .GetUsers()
+                    .then((response) => {
+                    console.log('==========>', response);
+                    flat = response;
+                    this.redis.WriteData('users', JSON.stringify(flat));
+                })
+                    .catch((err) => console.log(err));
+            }
+            console.log('redis cache');
+            return res.send(flat);
         });
     }
     GetUserById(req, res) {
@@ -81,6 +92,7 @@ let UserApi = class UserApi {
 };
 UserApi = __decorate([
     (0, typedi_1.Service)(),
-    __metadata("design:paramtypes", [UserController_1.UserController])
+    __metadata("design:paramtypes", [UserController_1.UserController,
+        redis_1.Redis])
 ], UserApi);
 exports.default = UserApi;

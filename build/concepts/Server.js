@@ -11,6 +11,7 @@ const helmet_1 = __importDefault(require("helmet"));
 const compression_1 = __importDefault(require("compression"));
 const cors_1 = __importDefault(require("cors"));
 const http_1 = __importDefault(require("http"));
+const response_time_1 = __importDefault(require("response-time"));
 const socket_io_1 = __importDefault(require("socket.io"));
 // Ours
 const IndexRoutes_1 = __importDefault(require("./routes/IndexRoutes"));
@@ -31,6 +32,7 @@ class Server {
         this.Routes();
     }
     Config() {
+        this.applicationContext.use((0, response_time_1.default)());
         this.applicationContext.set('port', this.configuration.app.port);
         this.applicationContext.use((0, morgan_1.default)('dev'));
         this.applicationContext.use(express_1.default.json());
