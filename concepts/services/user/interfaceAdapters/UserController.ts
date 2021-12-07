@@ -8,6 +8,10 @@ import { UserInterface } from '../../../store/modelsInterfaces/UserInterfaces';
 export class UserController implements IUserController {
 	constructor(private readonly userRetriever: UserRetriever) {}
 
+	public async GetUsersBySex(): Promise<User[]> {
+		return await this.userRetriever.GetUsersBySex();
+	}
+
 	public async GetUsers(): Promise<User[]> {
 		return await this.userRetriever.GetUsers();
 	}

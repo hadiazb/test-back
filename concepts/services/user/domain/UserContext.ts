@@ -6,6 +6,10 @@ import { UserInterface } from '../../../store/modelsInterfaces/UserInterfaces';
 
 @Service()
 export class UserContext implements IUserContext {
+	public async GetUsersBySex(user: User[], sexo: boolean): Promise<User[]> {
+		return user.filter((user) => user.getDataValue('sexo') === sexo);
+	}
+
 	public async GetUsers(): Promise<User[]> {
 		return User.findAll();
 	}

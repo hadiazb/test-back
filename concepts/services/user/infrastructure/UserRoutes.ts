@@ -15,6 +15,9 @@ class UserRoutes {
 
 		this.router.post('/', async (req, res) => userApi.CreateUser(req, res));
 		this.router.get('/', async (req, res) => userApi.GetUsers(req, res));
+		this.router.get('/sexo', async (req, res) =>
+			userApi.GetUserBySexo(req, res)
+		);
 		this.router.get('/:id', async (req, res) => userApi.GetUserById(req, res));
 		this.router.put('/:id', async (req, res) =>
 			userApi.UpdateUserById(req, res)

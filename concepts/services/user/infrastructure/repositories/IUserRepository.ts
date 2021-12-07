@@ -1,7 +1,10 @@
+import User from '../../../../store/models/User';
+import { UserInterface } from '../../../../store/modelsInterfaces/UserInterfaces';
+
 export interface IUserRepository {
-	GetUsers(): Promise<void | any>;
-	GetUserById(): Promise<void | any>;
-	CreateUser(): Promise<void | any>;
-	DeleteUser(): Promise<void | any>;
-	UpdateUser(): Promise<void | any>;
+	GetUsers(): Promise<User[]>;
+	GetUserById(id: string): Promise<User[]>;
+	CreateUser(body: UserInterface): Promise<User>;
+	DeleteUser(id: string): Promise<number>;
+	UpdateUser(id: string, body: UserInterface): Promise<[number, User[]]>;
 }

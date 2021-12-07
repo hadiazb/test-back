@@ -3,38 +3,46 @@ import { Service } from 'typedi';
 
 // Ours
 import { Sockets } from '../../../sockets/socket';
-import { Redis } from '../../../storage/redis';
+// import { Redis } from '../../../storage/redis';
 import { UserController } from '../interfaceAdapters/UserController';
 
 @Service()
 export default class UserApi {
 	constructor(
-		private readonly userController: UserController,
-		private redis: Redis
+		private readonly userController: UserController // private redis: Redis
 	) {}
 
 	public async GetUsers(req: Request, res: Response) {
-		let flag = await this.redis.ReadData('users');
+		// let flag = await this.redis.ReadData('users');
 
 		await this.userController
 			.GetUsers()
 			.then((response) => {
-				if (flag) {
-					if (flag === JSON.stringify(response)) {
-						console.log('========>          COMSUMO DE REDIS');
-						res.send(JSON.parse(flag));
-					} else {
-						console.log('========>          ACTUALIZACIÓN DE REDIS');
-						this.redis.WriteData('users', JSON.stringify(response));
-						console.log('========>          CONSUMO DEL SERVICIO');
-						res.send(response);
-					}
-				} else {
-					console.log('========>          ACTUALIZACIÓN DE REDIS');
-					this.redis.WriteData('users', JSON.stringify(response));
-					console.log('========>          CONSUMO DEL SERVICIO, REDIS VACIO');
-					res.send(response);
-				}
+				// if (flag) {
+				// 	if (flag === JSON.stringify(response)) {
+				// 		console.log('========>          COMSUMO DE REDIS');
+				// 		res.send(JSON.parse(flag));
+				// 	} else {
+				// 		console.log('========>          ACTUALIZACIÓN DE REDIS');
+				// 		this.redis.WriteData('users', JSON.stringify(response));
+				// 		console.log('========>          CONSUMO DEL SERVICIO');
+				// 		res.send(response);
+				// 	}
+				// } else {
+				// 	console.log('========>          ACTUALIZACIÓN DE REDIS');
+				// 	this.redis.WriteData('users', JSON.stringify(response));
+				// 	console.log('========>          CONSUMO DEL SERVICIO, REDIS VACIO');
+				res.send(response);
+				// }
+			})
+			.catch((err) => console.log(err));
+	}
+
+	public async GetUserBySexo(req: Request, res: Response) {
+		await this.userController
+			.GetUsersBySex()
+			.then((response) => {
+				res.send(response);
 			})
 			.catch((err) => console.log(err));
 	}

@@ -22,6 +22,11 @@ exports.UserContext = void 0;
 const typedi_1 = require("typedi");
 const User_1 = __importDefault(require("../../../store/models/User"));
 let UserContext = class UserContext {
+    GetUsersBySex(user, sexo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return user.filter((user) => user.getDataValue('sexo') === sexo);
+        });
+    }
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return User_1.default.findAll();

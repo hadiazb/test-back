@@ -4,31 +4,41 @@ import { IUserRetriever } from '../interface/IUserRetriever';
 
 import User from '../../../../store/models/User';
 import { UserInterface } from '../../../../store/modelsInterfaces/UserInterfaces';
+import { UserPostgreSQLRepository } from '../../infrastructure/repositories/UserPostgreSQLRepository';
 
 @Service()
 export class UserRetriever implements IUserRetriever {
-	constructor(private readonly userContext: UserContext) {}
+	constructor(
+		private readonly userContext: UserContext,
+		private userPostgreSQL: UserPostgreSQLRepository
+	) {}
 
 	public async GetUsers(): Promise<User[]> {
-		return await this.userContext.GetUsers();
+		return await this.userPostgreSQL.GetUsers();
+	}
+
+	public async GetUsersBySex(): Promise<User[]> {
+		const users = await this.userPostgreSQL.GetUsers();
+		const sexo = false;
+		return await this.userContext.GetUsersBySex(users, sexo);
 	}
 
 	public async GetUserById(id: string): Promise<User[]> {
-		return await this.userContext.GetUserById(id);
+		return await this.userPostgreSQL.GetUserById(id);
 	}
 
 	public async CreateUser(body: UserInterface): Promise<User> {
-		return await this.userContext.CreateUser(body);
+		return await this.userPostgreSQL.CreateUser(body);
 	}
 
 	public async UpdateUserById(
 		id: string,
 		body: UserInterface
 	): Promise<[number, User[]]> {
-		return await this.userContext.UpdateUserById(id, body);
+		return await this.userPostgreSQL.UpdateUser(id, body);
 	}
 
 	public async DeleteUserById(id: string): Promise<number> {
-		return await this.userContext.DeleteUserById(id);
+		return await this.userPostgreSQL.DeleteUser(id);
 	}
 }

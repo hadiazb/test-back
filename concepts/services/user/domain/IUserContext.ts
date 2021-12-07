@@ -7,4 +7,5 @@ export interface IUserContext {
 	CreateUser(body: UserInterface): Promise<User>;
 	UpdateUserById(id: string, body: UserInterface): Promise<[number, User[]]>;
 	DeleteUserById(id: string): Promise<number>;
+	GetUsersBySex(users: User[], sexo: boolean): Promise<User[]>;
 }

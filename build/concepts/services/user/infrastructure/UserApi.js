@@ -21,37 +21,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 // Ours
 const socket_1 = require("../../../sockets/socket");
-const redis_1 = require("../../../storage/redis");
+// import { Redis } from '../../../storage/redis';
 const UserController_1 = require("../interfaceAdapters/UserController");
 let UserApi = class UserApi {
-    constructor(userController, redis) {
+    constructor(userController // private redis: Redis
+    ) {
         this.userController = userController;
-        this.redis = redis;
     }
     GetUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let flag = yield this.redis.ReadData('users');
+            // let flag = await this.redis.ReadData('users');
             yield this.userController
                 .GetUsers()
                 .then((response) => {
-                if (flag) {
-                    if (flag === JSON.stringify(response)) {
-                        console.log('========>          COMSUMO DE REDIS');
-                        res.send(JSON.parse(flag));
-                    }
-                    else {
-                        console.log('========>          ACTUALIZACIÓN DE REDIS');
-                        this.redis.WriteData('users', JSON.stringify(response));
-                        console.log('========>          CONSUMO DEL SERVICIO');
-                        res.send(response);
-                    }
-                }
-                else {
-                    console.log('========>          ACTUALIZACIÓN DE REDIS');
-                    this.redis.WriteData('users', JSON.stringify(response));
-                    console.log('========>          CONSUMO DEL SERVICIO, REDIS VACIO');
-                    res.send(response);
-                }
+                // if (flag) {
+                // 	if (flag === JSON.stringify(response)) {
+                // 		console.log('========>          COMSUMO DE REDIS');
+                // 		res.send(JSON.parse(flag));
+                // 	} else {
+                // 		console.log('========>          ACTUALIZACIÓN DE REDIS');
+                // 		this.redis.WriteData('users', JSON.stringify(response));
+                // 		console.log('========>          CONSUMO DEL SERVICIO');
+                // 		res.send(response);
+                // 	}
+                // } else {
+                // 	console.log('========>          ACTUALIZACIÓN DE REDIS');
+                // 	this.redis.WriteData('users', JSON.stringify(response));
+                // 	console.log('========>          CONSUMO DEL SERVICIO, REDIS VACIO');
+                res.send(response);
+                // }
+            })
+                .catch((err) => console.log(err));
+        });
+    }
+    GetUserBySexo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.userController
+                .GetUsersBySex()
+                .then((response) => {
+                res.send(response);
             })
                 .catch((err) => console.log(err));
         });
@@ -101,7 +109,7 @@ let UserApi = class UserApi {
 };
 UserApi = __decorate([
     (0, typedi_1.Service)(),
-    __metadata("design:paramtypes", [UserController_1.UserController,
-        redis_1.Redis])
+    __metadata("design:paramtypes", [UserController_1.UserController // private redis: Redis
+    ])
 ], UserApi);
 exports.default = UserApi;

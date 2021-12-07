@@ -21,38 +21,48 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRetriever = void 0;
 const typedi_1 = require("typedi");
 const UserContext_1 = require("../../domain/UserContext");
+const UserPostgreSQLRepository_1 = require("../../infrastructure/repositories/UserPostgreSQLRepository");
 let UserRetriever = class UserRetriever {
-    constructor(userContext) {
+    constructor(userContext, userPostgreSQL) {
         this.userContext = userContext;
+        this.userPostgreSQL = userPostgreSQL;
     }
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userContext.GetUsers();
+            return yield this.userPostgreSQL.GetUsers();
+        });
+    }
+    GetUsersBySex() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const users = yield this.userPostgreSQL.GetUsers();
+            const sexo = false;
+            return yield this.userContext.GetUsersBySex(users, sexo);
         });
     }
     GetUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userContext.GetUserById(id);
+            return yield this.userPostgreSQL.GetUserById(id);
         });
     }
     CreateUser(body) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userContext.CreateUser(body);
+            return yield this.userPostgreSQL.CreateUser(body);
         });
     }
     UpdateUserById(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userContext.UpdateUserById(id, body);
+            return yield this.userPostgreSQL.UpdateUser(id, body);
         });
     }
     DeleteUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userContext.DeleteUserById(id);
+            return yield this.userPostgreSQL.DeleteUser(id);
         });
     }
 };
 UserRetriever = __decorate([
     (0, typedi_1.Service)(),
-    __metadata("design:paramtypes", [UserContext_1.UserContext])
+    __metadata("design:paramtypes", [UserContext_1.UserContext,
+        UserPostgreSQLRepository_1.UserPostgreSQLRepository])
 ], UserRetriever);
 exports.UserRetriever = UserRetriever;

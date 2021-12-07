@@ -1,4 +1,10 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,32 +19,59 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserPostgreSQLRepository = void 0;
-const UserModel_1 = __importDefault(require("./UserModel"));
-class UserPostgreSQLRepository {
+const typedi_1 = require("typedi");
+const User_1 = __importDefault(require("../../../../store/models/User"));
+let UserPostgreSQLRepository = class UserPostgreSQLRepository {
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
-            return UserModel_1.default.findAll();
+            return User_1.default.findAll();
         });
     }
-    GetUserById() {
+    GetUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = 'SELECT * FROM User ORDER BY Id DESC';
+            return User_1.default.findAll({
+                where: {
+                    id,
+                },
+            });
         });
     }
-    CreateUser() {
+    CreateUser(body) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = 'SELECT * FROM User ORDER BY Id DESC';
+            return User_1.default.create({
+                nombre: body.nombre,
+                apellido: body.apellido,
+                edad: body.edad,
+                sexo: body.sexo,
+            });
         });
     }
-    UpdateUser() {
+    UpdateUser(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = 'SELECT * FROM User ORDER BY Id DESC';
+            return User_1.default.update({
+                id: body.id,
+                nombre: body.nombre,
+                apellido: body.apellido,
+                edad: body.edad,
+                sexo: body.sexo,
+            }, {
+                where: {
+                    id,
+                },
+            });
         });
     }
-    DeleteUser() {
+    DeleteUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = 'SELECT * FROM User ORDER BY Id DESC';
+            return User_1.default.destroy({
+                where: {
+                    id,
+                },
+            });
         });
     }
-}
+};
+UserPostgreSQLRepository = __decorate([
+    (0, typedi_1.Service)()
+], UserPostgreSQLRepository);
 exports.UserPostgreSQLRepository = UserPostgreSQLRepository;
