@@ -7,7 +7,8 @@
     "ts": "tsc -w",
     "dev": "nodemon ./build/concepts/Server.js",
     "redis": "redis-server",
-    "server": "tsc && node ./build/concepts/Server.js"
+    "server": "tsc && node ./build/concepts/Server.js",
+    "create:model": "sequelize-auto -h aforofreedb.postgres.database.azure.com -d llevaloodev -u llevaloousr@aforofreedb -x 1qazxsw2**2022JM -p 5432 -l ts  --dialect postgres -c config/index-sequelize-auto.ts  -o concepts/services/user/domain/models "
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "reflect-metadata": "^0.1.13",
     "response-time": "^2.3.2",
     "sequelize": "^6.12.0-alpha.1",
+    "sequelize-auto": "^0.8.6",
     "socket.io": "^4.4.0",
     "typedi": "^0.10.0"
   },

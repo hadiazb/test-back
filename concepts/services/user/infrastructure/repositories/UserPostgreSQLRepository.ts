@@ -33,7 +33,6 @@ export class UserPostgreSQLRepository implements IUserRepository {
 	): Promise<[number, User[]]> {
 		return User.update(
 			{
-				id: body.id,
 				nombre: body.nombre,
 				apellido: body.apellido,
 				edad: body.edad,

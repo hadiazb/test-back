@@ -49,7 +49,6 @@ let UserPostgreSQLRepository = class UserPostgreSQLRepository {
     UpdateUser(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
             return User_1.default.update({
-                id: body.id,
                 nombre: body.nombre,
                 apellido: body.apellido,
                 edad: body.edad,
