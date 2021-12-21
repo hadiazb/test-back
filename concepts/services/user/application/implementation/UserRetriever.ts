@@ -13,12 +13,10 @@ export class UserRetriever implements IUserRetriever {
 		private readonly userPostgreSQL: UserPostgreSQLRepository
 	) {}
 
-	// GetAllUsers in data base and connected to domain layer
 	public async GetUsers(): Promise<User[]> {
 		return await this.userPostgreSQL.GetUsers();
 	}
 
-	// GetAllUsers by sexo, this service not connected to domain layer
 	public async GetUsersBySex(): Promise<User[]> {
 		const users = await this.userPostgreSQL.GetUsers();
 		const sexo = false;

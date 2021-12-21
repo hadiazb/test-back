@@ -9,9 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.response = void 0;
+exports.ApiResponse = void 0;
 const typedi_1 = require("typedi");
-let response = class response {
+let ApiResponse = class ApiResponse {
     constructor() { }
     Success(req, res, status) {
         const statusCode = status || 200;
@@ -30,8 +30,8 @@ let response = class response {
         });
     }
 };
-response = __decorate([
+ApiResponse = __decorate([
     (0, typedi_1.Service)(),
     __metadata("design:paramtypes", [])
-], response);
-exports.response = response;
+], ApiResponse);
+exports.ApiResponse = ApiResponse;

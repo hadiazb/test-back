@@ -13,14 +13,12 @@ export default class UserApi {
 		await this.userController
 			.GetUsers()
 			.then((response) => {
-				// res.send(response);
 				res.status(200).send({
 					status: 200,
 					users: response,
 				});
 			})
 			.catch((err) => {
-				console.log(err);
 				res.status(500).send({
 					error: err,
 					status: 500,
@@ -41,9 +39,18 @@ export default class UserApi {
 		await this.userController
 			.GetUserById(req.params.id)
 			.then((response) => {
-				res.send(response);
+				res.status(200).send({
+					status: 200,
+					user: response,
+				});
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				res.status(500).send({
+					error: err,
+					status: 500,
+				});
+			});
 	}
 
 	public async CreateUser(req: Request, res: Response) {
@@ -51,27 +58,69 @@ export default class UserApi {
 			.CreateUser(req.body)
 			.then((response) => {
 				Sockets.emmit('create-user', response);
-				res.send(response);
+				res.status(200).send({
+					status: 200,
+					user: response,
+				});
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				res.status(500).send({
+					error: err,
+					status: 500,
+				});
+			});
 	}
 
 	public async UpdateUserById(req: Request, res: Response) {
 		await this.userController
 			.UpdateUserById(req.params.id, req.body)
 			.then((response) => {
-				res.send(response);
+				const isUser = response[0];
+				if (isUser) {
+					res.status(200).send({
+						status: 200,
+						user: `El usuario con ID igual a ${req.params.id} fue actualizado`,
+					});
+				} else {
+					res.status(200).send({
+						status: 200,
+						user: `El usuario con ID igual a ${req.params.id} no existe`,
+					});
+				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				res.status(500).send({
+					error: err,
+					status: 500,
+				});
+			});
 	}
 
 	public async DeleteUserById(req: Request, res: Response) {
 		await this.userController
 			.DeleteUserById(req.params.id)
 			.then((response) => {
-				console.log(response);
-				res.sendStatus(200);
+				const isUser = response;
+				if (isUser) {
+					res.status(200).send({
+						status: 200,
+						user: `El usuario con ID igual a ${req.params.id} fue eliminado`,
+					});
+				} else {
+					res.status(200).send({
+						status: 200,
+						user: `El usuario con ID igual a ${req.params.id} no existe`,
+					});
+				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				res.status(500).send({
+					error: err,
+					status: 500,
+				});
+			});
 	}
 }

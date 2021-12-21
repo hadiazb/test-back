@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
 @Service()
-export class response {
+export class ApiResponse {
 	constructor() {}
 
 	public Success(req: Request, res: Response, status: number) {
