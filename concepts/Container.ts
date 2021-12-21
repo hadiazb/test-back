@@ -1,5 +1,4 @@
 import { createContainer, asClass, AwilixError, asValue } from 'awilix';
-import { UserMySQLRepository } from './services/user/infrastructure/repositories/UserMySQLRepository';
 import { UserPostgreSQLRepository } from './services/user/infrastructure/repositories/UserPostgreSQLRepository';
 import { UserController } from './services/user/interfaceAdapters/UserController';
 import { UserRetriever } from './services/user/application/implementation/UserRetriever';
@@ -20,7 +19,6 @@ export default () => {
 
 	container.register({
 		userApi: asClass(UserApi).scoped(),
-		userMySQLRepository: asClass(UserMySQLRepository).scoped(),
 		userPostgreSQLRepository: asClass(UserPostgreSQLRepository).scoped(),
 		userController: asClass(UserController).scoped(),
 		userRetriever: asClass(UserRetriever).scoped(),

@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const awilix_1 = require("awilix");
-const UserMySQLRepository_1 = require("./services/user/infrastructure/repositories/UserMySQLRepository");
 const UserPostgreSQLRepository_1 = require("./services/user/infrastructure/repositories/UserPostgreSQLRepository");
 const UserController_1 = require("./services/user/interfaceAdapters/UserController");
 const UserRetriever_1 = require("./services/user/application/implementation/UserRetriever");
@@ -22,7 +21,6 @@ exports.default = () => {
     });
     container.register({
         userApi: (0, awilix_1.asClass)(UserApi_1.default).scoped(),
-        userMySQLRepository: (0, awilix_1.asClass)(UserMySQLRepository_1.UserMySQLRepository).scoped(),
         userPostgreSQLRepository: (0, awilix_1.asClass)(UserPostgreSQLRepository_1.UserPostgreSQLRepository).scoped(),
         userController: (0, awilix_1.asClass)(UserController_1.UserController).scoped(),
         userRetriever: (0, awilix_1.asClass)(UserRetriever_1.UserRetriever).scoped(),

@@ -10,20 +10,22 @@ import { UserPostgreSQLRepository } from '../../infrastructure/repositories/User
 export class UserRetriever implements IUserRetriever {
 	constructor(
 		private readonly userContext: UserContext,
-		private userPostgreSQL: UserPostgreSQLRepository
+		private readonly userPostgreSQL: UserPostgreSQLRepository
 	) {}
 
+	// GetAllUsers in data base and connected to domain layer
 	public async GetUsers(): Promise<User[]> {
 		return await this.userPostgreSQL.GetUsers();
 	}
 
+	// GetAllUsers by sexo, this service not connected to domain layer
 	public async GetUsersBySex(): Promise<User[]> {
 		const users = await this.userPostgreSQL.GetUsers();
 		const sexo = false;
 		return await this.userContext.GetUsersBySex(users, sexo);
 	}
 
-	public async GetUserById(id: string): Promise<User[]> {
+	public async GetUserById(id: string): Promise<User | null> {
 		return await this.userPostgreSQL.GetUserById(id);
 	}
 

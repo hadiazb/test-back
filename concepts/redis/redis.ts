@@ -2,7 +2,7 @@ import { createClient } from 'redis';
 import { Service } from 'typedi';
 
 @Service()
-export class Redis {
+export class RedisRepository {
 	constructor() {
 		this.ConnectRedis();
 	}

@@ -27,11 +27,13 @@ let UserRetriever = class UserRetriever {
         this.userContext = userContext;
         this.userPostgreSQL = userPostgreSQL;
     }
+    // GetAllUsers in data base and connected to domain layer
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userPostgreSQL.GetUsers();
         });
     }
+    // GetAllUsers by sexo, this service not connected to domain layer
     GetUsersBySex() {
         return __awaiter(this, void 0, void 0, function* () {
             const users = yield this.userPostgreSQL.GetUsers();

@@ -21,37 +21,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 // Ours
 const socket_1 = require("../../../sockets/socket");
-// import { Redis } from '../../../storage/redis';
 const UserController_1 = require("../interfaceAdapters/UserController");
 let UserApi = class UserApi {
-    constructor(userController // private redis: Redis
-    ) {
+    constructor(userController) {
         this.userController = userController;
     }
     GetUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            // let flag = await this.redis.ReadData('users');
             yield this.userController
                 .GetUsers()
                 .then((response) => {
-                // if (flag) {
-                // 	if (flag === JSON.stringify(response)) {
-                // 		console.log('========>          COMSUMO DE REDIS');
-                // 		res.send(JSON.parse(flag));
-                // 	} else {
-                // 		console.log('========>          ACTUALIZACIÓN DE REDIS');
-                // 		this.redis.WriteData('users', JSON.stringify(response));
-                // 		console.log('========>          CONSUMO DEL SERVICIO');
-                // 		res.send(response);
-                // 	}
-                // } else {
-                // 	console.log('========>          ACTUALIZACIÓN DE REDIS');
-                // 	this.redis.WriteData('users', JSON.stringify(response));
-                // 	console.log('========>          CONSUMO DEL SERVICIO, REDIS VACIO');
-                res.send(response);
-                // }
+                // res.send(response);
+                res.status(200).send({
+                    status: 200,
+                    users: response,
+                });
             })
-                .catch((err) => console.log(err));
+                .catch((err) => {
+                console.log(err);
+                res.status(500).send({
+                    error: err,
+                    status: 500,
+                });
+            });
         });
     }
     GetUserBySexo(req, res) {
@@ -109,7 +101,6 @@ let UserApi = class UserApi {
 };
 UserApi = __decorate([
     (0, typedi_1.Service)(),
-    __metadata("design:paramtypes", [UserController_1.UserController // private redis: Redis
-    ])
+    __metadata("design:paramtypes", [UserController_1.UserController])
 ], UserApi);
 exports.default = UserApi;
