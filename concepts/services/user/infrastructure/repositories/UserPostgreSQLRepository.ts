@@ -1,8 +1,7 @@
 import { IUserRepository } from './IUserRepository';
 import { Service } from 'typedi';
 
-import User from '../../../../store/models/User';
-import { UserInterface } from '../../../../store/modelsInterfaces/UserInterfaces';
+import { Users, UsersAttributes } from '../../../../models/init-models';
 import { RedisRepository } from '../../../../redis/redis';
 
 @Service()
@@ -10,8 +9,8 @@ export class UserPostgreSQLRepository implements IUserRepository {
 	public user: string = 'users';
 	constructor(private readonly redisRepository: RedisRepository) {}
 
-	public async GetUsers(): Promise<User[]> {
-		const response = await User.findAll();
+	public async GetUsers(): Promise<Users[]> {
+		const response = await Users.findAll();
 		let flag = await this.redisRepository.ReadData(this.user);
 
 		if (flag) {
@@ -20,52 +19,102 @@ export class UserPostgreSQLRepository implements IUserRepository {
 			} else {
 				this.redisRepository.WriteData(this.user, JSON.stringify(response));
 
-				return User.findAll();
+				return Users.findAll();
 			}
 		} else {
 			this.redisRepository.WriteData(this.user, JSON.stringify(response));
 
-			return User.findAll();
+			return Users.findAll();
 		}
 	}
 
-	public async GetUserById(id: string): Promise<User | null> {
-		return User.findByPk(id);
+	public async GetUserById(id: string): Promise<Users | null> {
+		return Users.findByPk(id);
 	}
 
-	public async CreateUser(body: UserInterface): Promise<User> {
-		return User.create({
-			nombre: body.nombre,
-			apellido: body.apellido,
-			edad: body.edad,
-			sexo: body.sexo,
+	public async DeleteUser(id: string): Promise<number> {
+		return Users.destroy({
+			where: {
+				Id: id,
+			},
+		});
+	}
+
+	public async CreateUser(body: UsersAttributes): Promise<Users> {
+		return Users.create({
+			Name: body.Name,
+			LastName: body.LastName,
+			Email: body.Email,
+			Phone: body.Phone,
+			// RegistrationDate: body.RegistrationDate,
+			// ProfilePhoto: body.ProfilePhoto,
+			// IsActive: body.IsActive,
+			// InvitationCode: body.InvitationCode,
+			// VirtualWallet: body.VirtualWallet,
+			// BirthDate: body.BirthDate,
+			// MarketId: body.MarketId,
+			// Admin: body.Admin,
+			// Address: body.Address,
+			// Gender: body.Gender,
+			// TypeUser: body.TypeUser,
+			// LicenseValidity: body.LicenseValidity,
+			// AccountNumber: body.AccountNumber,
+			// Coordinator: body.Coordinator,
+			// IdCity: body.IdCity,
+			// haveDatafono: body.haveDatafono,
+			// IdMarket: body.IdMarket,
+			// Verified: body.Verified,
+			// Id_Old: body.Id_Old,
+			// TokenPush: body.TokenPush,
+			// Longitude: body.Longitude,
+			// Latitude: body.Latitude,
+			// Instructions: body.Instructions,
+			// Password: body.Password,
+			// IsDeleted: body.IsDeleted,
 		});
 	}
 
 	public async UpdateUser(
 		id: string,
-		body: UserInterface
-	): Promise<[number, User[]]> {
-		return User.update(
+		body: UsersAttributes
+	): Promise<[number, Users[]]> {
+		return Users.update(
 			{
-				nombre: body.nombre,
-				apellido: body.apellido,
-				edad: body.edad,
-				sexo: body.sexo,
+				Name: body.Name,
+				LastName: body.LastName,
+				Email: body.Email,
+				Phone: body.Phone,
+				RegistrationDate: body.RegistrationDate,
+				ProfilePhoto: body.ProfilePhoto,
+				IsActive: body.IsActive,
+				InvitationCode: body.InvitationCode,
+				VirtualWallet: body.VirtualWallet,
+				BirthDate: body.BirthDate,
+				MarketId: body.MarketId,
+				Admin: body.Admin,
+				Address: body.Address,
+				Gender: body.Gender,
+				TypeUser: body.TypeUser,
+				LicenseValidity: body.LicenseValidity,
+				AccountNumber: body.AccountNumber,
+				Coordinator: body.Coordinator,
+				IdCity: body.IdCity,
+				haveDatafono: body.haveDatafono,
+				IdMarket: body.IdMarket,
+				Verified: body.Verified,
+				Id_Old: body.Id_Old,
+				TokenPush: body.TokenPush,
+				Longitude: body.Longitude,
+				Latitude: body.Latitude,
+				Instructions: body.Instructions,
+				Password: body.Password,
+				IsDeleted: body.IsDeleted,
 			},
 			{
 				where: {
-					id,
+					Id: id,
 				},
 			}
 		);
-	}
-
-	public async DeleteUser(id: string): Promise<number> {
-		return User.destroy({
-			where: {
-				id,
-			},
-		});
 	}
 }

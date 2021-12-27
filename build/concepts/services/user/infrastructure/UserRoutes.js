@@ -22,12 +22,11 @@ class UserRoutes {
     }
     Routes() {
         const userApi = typedi_1.default.get(UserApi_1.default);
-        this.router.post('/', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.CreateUser(req, res); }));
         this.router.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.GetUsers(req, res); }));
-        this.router.get('/sexo', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.GetUserBySexo(req, res); }));
         this.router.get('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.GetUserById(req, res); }));
-        this.router.put('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.UpdateUserById(req, res); }));
         this.router.delete('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.DeleteUserById(req, res); }));
+        this.router.post('/', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.CreateUser(req, res); }));
+        this.router.put('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { return userApi.UpdateUserById(req, res); }));
     }
 }
 const userRouter = new UserRoutes();

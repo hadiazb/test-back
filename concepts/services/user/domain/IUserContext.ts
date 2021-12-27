@@ -1,11 +1,9 @@
-import User from '../../../store/models/User';
-import { UserInterface } from '../../../store/modelsInterfaces/UserInterfaces';
+import { Users, UsersAttributes } from '../../../models/init-models';
 
 export interface IUserContext {
-	GetUsers(): Promise<User[]>;
-	GetUserById(id: string): Promise<User[]>;
-	CreateUser(body: UserInterface): Promise<User>;
-	UpdateUserById(id: string, body: UserInterface): Promise<[number, User[]]>;
+	GetUsers(): Promise<Users[]>;
+	GetUserById(id: string): Promise<Users | null>;
 	DeleteUserById(id: string): Promise<number>;
-	GetUsersBySex(users: User[], sexo: boolean): Promise<User[]>;
+	CreateUser(body: UsersAttributes): Promise<Users>;
+	UpdateUserById(id: string, body: UsersAttributes): Promise<[number, Users[]]>;
 }

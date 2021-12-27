@@ -26,15 +26,6 @@ export default class UserApi {
 			});
 	}
 
-	public async GetUserBySexo(req: Request, res: Response) {
-		await this.userController
-			.GetUsersBySex()
-			.then((response) => {
-				res.send(response);
-			})
-			.catch((err) => console.log(err));
-	}
-
 	public async GetUserById(req: Request, res: Response) {
 		await this.userController
 			.GetUserById(req.params.id)
@@ -43,6 +34,32 @@ export default class UserApi {
 					status: 200,
 					user: response,
 				});
+			})
+			.catch((err) => {
+				console.log(err);
+				res.status(500).send({
+					error: err,
+					status: 500,
+				});
+			});
+	}
+
+	public async DeleteUserById(req: Request, res: Response) {
+		await this.userController
+			.DeleteUserById(req.params.id)
+			.then((response) => {
+				const isUser = response;
+				if (isUser) {
+					res.status(200).send({
+						status: 200,
+						user: `El usuario con ID igual a ${req.params.id} fue eliminado`,
+					});
+				} else {
+					res.status(200).send({
+						status: 200,
+						user: `El usuario con ID igual a ${req.params.id} no existe`,
+					});
+				}
 			})
 			.catch((err) => {
 				console.log(err);
@@ -81,32 +98,6 @@ export default class UserApi {
 					res.status(200).send({
 						status: 200,
 						user: `El usuario con ID igual a ${req.params.id} fue actualizado`,
-					});
-				} else {
-					res.status(200).send({
-						status: 200,
-						user: `El usuario con ID igual a ${req.params.id} no existe`,
-					});
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-				res.status(500).send({
-					error: err,
-					status: 500,
-				});
-			});
-	}
-
-	public async DeleteUserById(req: Request, res: Response) {
-		await this.userController
-			.DeleteUserById(req.params.id)
-			.then((response) => {
-				const isUser = response;
-				if (isUser) {
-					res.status(200).send({
-						status: 200,
-						user: `El usuario con ID igual a ${req.params.id} fue eliminado`,
 					});
 				} else {
 					res.status(200).send({

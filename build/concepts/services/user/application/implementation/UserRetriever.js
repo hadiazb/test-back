@@ -32,16 +32,14 @@ let UserRetriever = class UserRetriever {
             return yield this.userPostgreSQL.GetUsers();
         });
     }
-    GetUsersBySex() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const users = yield this.userPostgreSQL.GetUsers();
-            const sexo = false;
-            return yield this.userContext.GetUsersBySex(users, sexo);
-        });
-    }
     GetUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userPostgreSQL.GetUserById(id);
+        });
+    }
+    DeleteUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userPostgreSQL.DeleteUser(id);
         });
     }
     CreateUser(body) {
@@ -52,11 +50,6 @@ let UserRetriever = class UserRetriever {
     UpdateUserById(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userPostgreSQL.UpdateUser(id, body);
-        });
-    }
-    DeleteUserById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userPostgreSQL.DeleteUser(id);
         });
     }
 };

@@ -17,13 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserPostgreSQLRepository = void 0;
 const typedi_1 = require("typedi");
-const User_1 = __importDefault(require("../../../../store/models/User"));
+const init_models_1 = require("../../../../models/init-models");
 const redis_1 = require("../../../../redis/redis");
 let UserPostgreSQLRepository = class UserPostgreSQLRepository {
     constructor(redisRepository) {
@@ -32,7 +29,7 @@ let UserPostgreSQLRepository = class UserPostgreSQLRepository {
     }
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield User_1.default.findAll();
+            const response = yield init_models_1.Users.findAll();
             let flag = yield this.redisRepository.ReadData(this.user);
             if (flag) {
                 if (flag === JSON.stringify(response)) {
@@ -40,49 +37,99 @@ let UserPostgreSQLRepository = class UserPostgreSQLRepository {
                 }
                 else {
                     this.redisRepository.WriteData(this.user, JSON.stringify(response));
-                    return User_1.default.findAll();
+                    return init_models_1.Users.findAll();
                 }
             }
             else {
                 this.redisRepository.WriteData(this.user, JSON.stringify(response));
-                return User_1.default.findAll();
+                return init_models_1.Users.findAll();
             }
         });
     }
     GetUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.findByPk(id);
+            return init_models_1.Users.findByPk(id);
+        });
+    }
+    DeleteUser(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return init_models_1.Users.destroy({
+                where: {
+                    Id: id,
+                },
+            });
         });
     }
     CreateUser(body) {
         return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.create({
-                nombre: body.nombre,
-                apellido: body.apellido,
-                edad: body.edad,
-                sexo: body.sexo,
+            return init_models_1.Users.create({
+                Name: body.Name,
+                LastName: body.LastName,
+                Email: body.Email,
+                Phone: body.Phone,
+                // RegistrationDate: body.RegistrationDate,
+                // ProfilePhoto: body.ProfilePhoto,
+                // IsActive: body.IsActive,
+                // InvitationCode: body.InvitationCode,
+                // VirtualWallet: body.VirtualWallet,
+                // BirthDate: body.BirthDate,
+                // MarketId: body.MarketId,
+                // Admin: body.Admin,
+                // Address: body.Address,
+                // Gender: body.Gender,
+                // TypeUser: body.TypeUser,
+                // LicenseValidity: body.LicenseValidity,
+                // AccountNumber: body.AccountNumber,
+                // Coordinator: body.Coordinator,
+                // IdCity: body.IdCity,
+                // haveDatafono: body.haveDatafono,
+                // IdMarket: body.IdMarket,
+                // Verified: body.Verified,
+                // Id_Old: body.Id_Old,
+                // TokenPush: body.TokenPush,
+                // Longitude: body.Longitude,
+                // Latitude: body.Latitude,
+                // Instructions: body.Instructions,
+                // Password: body.Password,
+                // IsDeleted: body.IsDeleted,
             });
         });
     }
     UpdateUser(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.update({
-                nombre: body.nombre,
-                apellido: body.apellido,
-                edad: body.edad,
-                sexo: body.sexo,
+            return init_models_1.Users.update({
+                Name: body.Name,
+                LastName: body.LastName,
+                Email: body.Email,
+                Phone: body.Phone,
+                RegistrationDate: body.RegistrationDate,
+                ProfilePhoto: body.ProfilePhoto,
+                IsActive: body.IsActive,
+                InvitationCode: body.InvitationCode,
+                VirtualWallet: body.VirtualWallet,
+                BirthDate: body.BirthDate,
+                MarketId: body.MarketId,
+                Admin: body.Admin,
+                Address: body.Address,
+                Gender: body.Gender,
+                TypeUser: body.TypeUser,
+                LicenseValidity: body.LicenseValidity,
+                AccountNumber: body.AccountNumber,
+                Coordinator: body.Coordinator,
+                IdCity: body.IdCity,
+                haveDatafono: body.haveDatafono,
+                IdMarket: body.IdMarket,
+                Verified: body.Verified,
+                Id_Old: body.Id_Old,
+                TokenPush: body.TokenPush,
+                Longitude: body.Longitude,
+                Latitude: body.Latitude,
+                Instructions: body.Instructions,
+                Password: body.Password,
+                IsDeleted: body.IsDeleted,
             }, {
                 where: {
-                    id,
-                },
-            });
-        });
-    }
-    DeleteUser(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.destroy({
-                where: {
-                    id,
+                    Id: id,
                 },
             });
         });

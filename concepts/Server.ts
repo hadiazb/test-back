@@ -9,12 +9,16 @@ import responseTime from 'response-time';
 import socketIO, { Socket } from 'socket.io';
 
 // Ours
+// Routes
 import indexRoutes from './routes/IndexRoutes';
 import userRoutes from './services/user/infrastructure/UserRoutes';
-import orderRouter from './services/orders/infrastructure/OrderRoutes';
+// Database
 import { sequelize } from './store/database';
+// Configuration
 import { config } from '../config/index';
 import { Configuration } from '../interfaces/index';
+import { initModels } from './models/init-models';
+// Sockets
 import { Sockets } from './sockets/socket';
 
 export class Server {
@@ -47,20 +51,21 @@ export class Server {
 	public Routes() {
 		this.applicationContext.use(indexRoutes);
 		this.applicationContext.use('/api/user', userRoutes);
-		this.applicationContext.use('/api/order', orderRouter);
 	}
 
 	public Start() {
 		this.server.listen(this.applicationContext.get('port'), () => {
 			console.log('Server on port', this.applicationContext.get('port'));
 			this.ConnectDatabase();
+			this.initModels();
 			this.connectSocket();
 		});
 	}
 
 	public ConnectDatabase() {
 		sequelize
-			.sync({ force: false })
+			.authenticate()
+			// .sync({ force: false })
 			.then(() => {
 				console.log('Data base is connect!!!');
 			})
@@ -73,6 +78,10 @@ export class Server {
 		this.io.on('connection', (client: Socket) => {
 			Sockets.socketUser(client);
 		});
+	}
+
+	public initModels() {
+		initModels(sequelize);
 	}
 }
 

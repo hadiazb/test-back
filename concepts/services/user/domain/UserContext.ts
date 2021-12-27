@@ -1,61 +1,25 @@
 import { Service } from 'typedi';
+import { Users, UsersAttributes } from '../../../models/init-models';
 import { IUserContext } from './IUserContext';
-
-import User from '../../../store/models/User';
-import { UserInterface } from '../../../store/modelsInterfaces/UserInterfaces';
 
 @Service()
 export class UserContext implements IUserContext {
-	public async GetUsersBySex(user: User[], sexo: boolean): Promise<User[]> {
-		return user.filter((user) => user.getDataValue('sexo') === sexo);
-	}
-
-	public async GetUsers(): Promise<User[]> {
-		return User.findAll();
-	}
-
-	public async GetUserById(id: string): Promise<User[]> {
-		return User.findAll({
-			where: {
-				id,
-			},
-		});
-	}
-
-	public async CreateUser(body: UserInterface): Promise<User> {
-		return User.create({
-			nombre: body.nombre,
-			apellido: body.apellido,
-			edad: body.edad,
-			sexo: body.sexo,
-		});
-	}
-
-	public async UpdateUserById(
+	public UpdateUserById(
 		id: string,
-		body: UserInterface
-	): Promise<[number, User[]]> {
-		return User.update(
-			{
-				id: body.id,
-				nombre: body.nombre,
-				apellido: body.apellido,
-				edad: body.edad,
-				sexo: body.sexo,
-			},
-			{
-				where: {
-					id,
-				},
-			}
-		);
+		body: UsersAttributes
+	): Promise<[number, Users[]]> {
+		throw new Error('Method not implemented.');
 	}
-
-	public async DeleteUserById(id: string): Promise<number> {
-		return User.destroy({
-			where: {
-				id,
-			},
-		});
+	public async GetUsers(): Promise<Users[]> {
+		throw new Error('Method not implemented.');
+	}
+	public async GetUserById(id: string): Promise<Users | null> {
+		throw new Error('Method not implemented.');
+	}
+	public DeleteUserById(id: string): Promise<number> {
+		throw new Error('Method not implemented.');
+	}
+	public CreateUser(body: UsersAttributes): Promise<Users> {
+		throw new Error('Method not implemented.');
 	}
 }

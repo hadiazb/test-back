@@ -14,66 +14,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserContext = void 0;
 const typedi_1 = require("typedi");
-const User_1 = __importDefault(require("../../../store/models/User"));
 let UserContext = class UserContext {
-    GetUsersBySex(user, sexo) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return user.filter((user) => user.getDataValue('sexo') === sexo);
-        });
+    UpdateUserById(id, body) {
+        throw new Error('Method not implemented.');
     }
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.findAll();
+            throw new Error('Method not implemented.');
         });
     }
     GetUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.findAll({
-                where: {
-                    id,
-                },
-            });
-        });
-    }
-    CreateUser(body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.create({
-                nombre: body.nombre,
-                apellido: body.apellido,
-                edad: body.edad,
-                sexo: body.sexo,
-            });
-        });
-    }
-    UpdateUserById(id, body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.update({
-                id: body.id,
-                nombre: body.nombre,
-                apellido: body.apellido,
-                edad: body.edad,
-                sexo: body.sexo,
-            }, {
-                where: {
-                    id,
-                },
-            });
+            throw new Error('Method not implemented.');
         });
     }
     DeleteUserById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.destroy({
-                where: {
-                    id,
-                },
-            });
-        });
+        throw new Error('Method not implemented.');
+    }
+    CreateUser(body) {
+        throw new Error('Method not implemented.');
     }
 };
 UserContext = __decorate([

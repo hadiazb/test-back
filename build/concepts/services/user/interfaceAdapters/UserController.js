@@ -25,11 +25,6 @@ let UserController = class UserController {
     constructor(userRetriever) {
         this.userRetriever = userRetriever;
     }
-    GetUsersBySex() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userRetriever.GetUsersBySex();
-        });
-    }
     GetUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRetriever.GetUsers();
@@ -40,6 +35,11 @@ let UserController = class UserController {
             return yield this.userRetriever.GetUserById(id);
         });
     }
+    DeleteUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userRetriever.DeleteUserById(id);
+        });
+    }
     CreateUser(body) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRetriever.CreateUser(body);
@@ -48,11 +48,6 @@ let UserController = class UserController {
     UpdateUserById(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRetriever.UpdateUserById(id, body);
-        });
-    }
-    DeleteUserById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userRetriever.DeleteUserById(id);
         });
     }
 };

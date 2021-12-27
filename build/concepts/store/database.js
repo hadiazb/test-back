@@ -6,10 +6,4 @@ const index_1 = require("../../config/index");
 exports.sequelize = new sequelize_1.Sequelize(index_1.config.database.dbName, index_1.config.database.dbUser, index_1.config.database.dbPassword, {
     host: index_1.config.database.dbHost,
     dialect: 'postgres',
-    // ssl: true,
-    // dialectOptions: {
-    // 	ssl: {
-    // 		require: true,
-    // 	},
-    // },
 });

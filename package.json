@@ -8,7 +8,7 @@
     "dev": "nodemon ./build/concepts/Server.js",
     "redis": "redis-server",
     "server": "tsc && node ./build/concepts/Server.js",
-    "create:model": "sequelize-auto -h localhost -d llevaloo_local -u postgres -x B1ts2021. -p 5432 -l ts  --dialect postgres -o concepts/services/user/domain/models "
+    "create:model": "sequelize-auto -h localhost -d update_llevaloo -u postgres -x B1ts2021. -p 5432 -l ts  --dialect postgres -o concepts/models "
   },
   "keywords": [],
   "author": "",

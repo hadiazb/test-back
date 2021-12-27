@@ -1,10 +1,9 @@
-import User from '../../../../store/models/User';
-import { UserInterface } from '../../../../store/modelsInterfaces/UserInterfaces';
+import { Users, UsersAttributes } from '../../../../models/init-models';
 
 export interface IUserRepository {
-	GetUsers(): Promise<User[]>;
-	GetUserById(id: string): Promise<User | null>;
-	CreateUser(body: UserInterface): Promise<User>;
+	GetUsers(): Promise<Users[]>;
+	GetUserById(id: string): Promise<Users | null>;
 	DeleteUser(id: string): Promise<number>;
-	UpdateUser(id: string, body: UserInterface): Promise<[number, User[]]>;
+	CreateUser(body: UsersAttributes): Promise<Users>;
+	UpdateUser(id: string, body: UsersAttributes): Promise<[number, Users[]]>;
 }

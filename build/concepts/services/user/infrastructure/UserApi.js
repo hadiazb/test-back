@@ -44,16 +44,6 @@ let UserApi = class UserApi {
             });
         });
     }
-    GetUserBySexo(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.userController
-                .GetUsersBySex()
-                .then((response) => {
-                res.send(response);
-            })
-                .catch((err) => console.log(err));
-        });
-    }
     GetUserById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.userController
@@ -63,6 +53,34 @@ let UserApi = class UserApi {
                     status: 200,
                     user: response,
                 });
+            })
+                .catch((err) => {
+                console.log(err);
+                res.status(500).send({
+                    error: err,
+                    status: 500,
+                });
+            });
+        });
+    }
+    DeleteUserById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.userController
+                .DeleteUserById(req.params.id)
+                .then((response) => {
+                const isUser = response;
+                if (isUser) {
+                    res.status(200).send({
+                        status: 200,
+                        user: `El usuario con ID igual a ${req.params.id} fue eliminado`,
+                    });
+                }
+                else {
+                    res.status(200).send({
+                        status: 200,
+                        user: `El usuario con ID igual a ${req.params.id} no existe`,
+                    });
+                }
             })
                 .catch((err) => {
                 console.log(err);
@@ -103,34 +121,6 @@ let UserApi = class UserApi {
                     res.status(200).send({
                         status: 200,
                         user: `El usuario con ID igual a ${req.params.id} fue actualizado`,
-                    });
-                }
-                else {
-                    res.status(200).send({
-                        status: 200,
-                        user: `El usuario con ID igual a ${req.params.id} no existe`,
-                    });
-                }
-            })
-                .catch((err) => {
-                console.log(err);
-                res.status(500).send({
-                    error: err,
-                    status: 500,
-                });
-            });
-        });
-    }
-    DeleteUserById(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.userController
-                .DeleteUserById(req.params.id)
-                .then((response) => {
-                const isUser = response;
-                if (isUser) {
-                    res.status(200).send({
-                        status: 200,
-                        user: `El usuario con ID igual a ${req.params.id} fue eliminado`,
                     });
                 }
                 else {
